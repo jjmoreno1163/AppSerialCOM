@@ -1,4 +1,12 @@
-﻿using System;
+﻿// ====================================================================================================================
+// 
+// Application: WIN 10 IOT Communication part port serie
+//
+// Auteur:      J. J. Moreno
+//
+// ====================================================================================================================
+
+using System;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;

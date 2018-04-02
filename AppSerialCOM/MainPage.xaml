@@ -25,15 +25,17 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <TextBlock HorizontalAlignment="Left" Height="35" Margin="10,10,0,0" Text="SLO2-TP3 App de communication série UART - JMO" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" RequestedTheme="Default" FontWeight="Bold" Foreground="White"/>
-        <TextBlock HorizontalAlignment="Center" Height="25" Margin="288,55,287,0" Text="Séléction port de communication" TextWrapping="Wrap" VerticalAlignment="Top" Width="225" RequestedTheme="Default" FontWeight="Normal" Foreground="White"/>
-        <TextBlock HorizontalAlignment="Left" Height="25" Margin="40,295,590,0" Text="Emission de données" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" RequestedTheme="Default" FontWeight="Normal" Foreground="White" RenderTransformOrigin="0.31,0.4"/>
-        <TextBox x:Name="TxBx_TxText" HorizontalAlignment="Left" Height="80" Margin="40,320,0,0" Text="TextBox" VerticalAlignment="Top" Width="345"/>
-        <TextBox x:Name="TxBx_RxText" HorizontalAlignment="Left" Height="80" Margin="420,320,0,0" Text="" VerticalAlignment="Top" Width="345" AcceptsReturn="True"/>
-        <TextBlock HorizontalAlignment="Left" Height="25" Margin="420,300,0,0" Text="Réception de données" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" RequestedTheme="Default" FontWeight="Normal" Foreground="White" RenderTransformOrigin="0.31,0.4"/>
+        <TextBlock x:Name="TxBl_Header" HorizontalAlignment="Center" Height="25" Margin="10,55,10,0" Text="Séléction port de communication" TextWrapping="Wrap" VerticalAlignment="Top" Width="785" RequestedTheme="Default" FontWeight="Normal" Foreground="White" TextAlignment="Center"/>
+        <TextBlock HorizontalAlignment="Left" Height="25" Margin="37,275,0,0" Text="Emission de données" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" RequestedTheme="Default" FontWeight="Normal" Foreground="White" RenderTransformOrigin="0.31,0.4"/>
+        <TextBox x:Name="TxBx_TxText" HorizontalAlignment="Left" Height="60" Margin="37,300,0,0" Text="TextBox" VerticalAlignment="Top" Width="345"/>
+        <TextBox x:Name="TxBx_RxText" HorizontalAlignment="Left" Height="60" Margin="417,300,0,0" Text="" VerticalAlignment="Top" Width="345" AcceptsReturn="True"/>
+        <TextBlock HorizontalAlignment="Left" Height="25" Margin="417,280,0,0" Text="Réception de données" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" RequestedTheme="Default" FontWeight="Normal" Foreground="White" RenderTransformOrigin="0.31,0.4"/>
         <Button x:Name="Bt_ConnectDevice" Content="Connecter" HorizontalAlignment="Left" Height="40" Margin="160,180,0,0" VerticalAlignment="Top" Width="160" Background="#33FFFFFF" Foreground="#FFF7F6F7" Click="Bt_ConnectDevice_Click"/>
         <Button x:Name="Bt_DisconnectDevice" Content="Déconnecter" HorizontalAlignment="Left" Height="40" Margin="480,180,0,0" VerticalAlignment="Top" Width="160" Background="#33FFFFFF" Foreground="#FFF7F6F7" Click="Bt_DisconnectDevice_Click"/>
-        <Slider x:Name="Sl_SendValue" HorizontalAlignment="Left" Height="25" Margin="240,420,0,0" VerticalAlignment="Top" Width="140" Background="#66FDFD00" Foreground="#FFA65564" BorderBrush="Black" PointerReleased="Sl_SendValue_PointerReleased" PointerCaptureLost="Sl_SendValue_PointerCaptureLost"/>
-        <Button x:Name="Bt_SendText" Content="Envoi" HorizontalAlignment="Left" Height="40" Margin="45,415,0,0" VerticalAlignment="Top" Width="160" Background="#33FFFFFF" Foreground="#FFF7F6F7" Click="Bt_SendText_Click"/>
+        <Slider x:Name="Sl_SendValue" HorizontalAlignment="Left" Height="25" Margin="222,371,0,0" VerticalAlignment="Top" Width="153" Background="#66FDFD00" Foreground="#FFA65564" BorderBrush="Black" PointerReleased="Sl_SendValue_PointerReleased" PointerCaptureLost="Sl_SendValue_PointerCaptureLost"/>
+        <Button x:Name="Bt_SendText" Content="Envoi" HorizontalAlignment="Left" Height="30" Margin="40,371,0,0" VerticalAlignment="Top" Width="160" Background="#33FFFFFF" Foreground="#FFF7F6F7" Click="Bt_SendText_Click"/>
         <TextBlock x:Name="TxBl_status" HorizontalAlignment="Center" Height="25" Margin="0,240,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="600" Foreground="#FFB5C744" TextAlignment="Center"/>
+        <Button x:Name="Bt_SaveTestText" Content="Sauver Chaîne Test" HorizontalAlignment="Left" Height="30" Margin="40,420,0,0" VerticalAlignment="Top" Width="160" Background="#33FFFFFF" Foreground="#FFF7F6F7" Click="Bt_SaveTestText_Click"/>
+        <Button x:Name="Bt_SendTestText" Content="Envoi Chaîne Test" HorizontalAlignment="Left" Height="30" Margin="222,420,0,0" VerticalAlignment="Top" Width="160" Background="#33FFFFFF" Foreground="#FFF7F6F7" Click="Bt_SendTestText_Click"/>
     </Grid>
 </Page>

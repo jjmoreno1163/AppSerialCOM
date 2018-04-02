@@ -5,6 +5,36 @@
 // Auteur:      J. J. Moreno
 // Date:        Mars 2018
 //
+// Test pour connexion par ligne série RS232.
+// Bouton 'Connecter'       ouverture du port sélectionné
+// Bouton 'Déconnecter':    fermeture du port en cours d'utilisation
+// Bouton 'Envoi':          transmet les caractères de la TextBox d'émission, ajoute CR/LF à la fin de l'émission
+// Slider :                 transmet la valeur du slider dès que celui-ci est relâché
+// Bouton 'Sauver Chaîne Test':    enregistre la chaîne de la Textbox d'émission comme variable de test pour envois multiples
+// Bouton 'Envoi Test':     transmet la chaine de test enregistrée
+//
+// La gestion du port série est issue de l'exemple SerialSample de https://github.com/ms-iot/samples
+// avec la licence suivante:
+//
+//Copyright(c) Microsoft Open Technologies, Inc.All rights reserved.
+//The MIT License(MIT)
+//Permission is hereby granted, free of charge, to any person obtaining a copy
+//of this software and associated documentation files (the "Software"), to deal
+//in the Software without restriction, including without limitation the rights
+//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//copies of the Software, and to permit persons to whom the Software is
+//furnished to do so, subject to the following conditions:
+ 
+//The above copyright notice and this permission notice shall be included in
+//all copies or substantial portions of the Software.
+ 
+//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//THE SOFTWARE.
 // ====================================================================================================================
 
 using System;
@@ -34,13 +64,16 @@ namespace AppSerialCOM
 
         private ObservableCollection<DeviceInformation> listOfDevices;
         private CancellationTokenSource ReadCancellationTokenSource;
+        private string testText = "";
 
 
         public MainPage()
-        {
+        {   // Initialisations
             this.InitializeComponent();
             Bt_ConnectDevice.IsEnabled = false;
             Bt_SendText.IsEnabled = false;
+            Bt_SendTestText.IsEnabled = false;
+            TxBl_Header.Text = "Séléction port de communication";
             listOfDevices = new ObservableCollection<DeviceInformation>();
             ListAvailablePorts();
         }
@@ -175,7 +208,7 @@ namespace AppSerialCOM
                 }
                 else
                 {
-                    TxBl_status.Text = "Sélectionner un port et clicker 'Connecter'";
+                    TxBl_status.Text = "Choisir un port et clicker 'Connecter'";
                 }
             }
             catch (Exception ex)
@@ -255,7 +288,7 @@ namespace AppSerialCOM
 
             if (selection.Count <= 0)
             {
-                TxBl_status.Text = "Select a device and connect";
+                TxBl_status.Text = "Choisir un port et clicker 'Connecter'";
                 return;
             }
 
@@ -280,11 +313,11 @@ namespace AppSerialCOM
                 serialPort.Handshake = SerialHandshake.None;
 
                 // Display configured settings
-                TxBl_status.Text = "Serial port configuré : ";
-                TxBl_status.Text += serialPort.BaudRate + " Bauds - ";
-                TxBl_status.Text += serialPort.DataBits + " bits - Parité: ";
-                TxBl_status.Text += serialPort.Parity.ToString() + " - ";
-                TxBl_status.Text += serialPort.StopBits + " stop bit(s)";
+                TxBl_status.Text = "Serial port configuré";
+                TxBl_Header.Text = entry.Name + " (" + serialPort.PortName + ") : ";
+                TxBl_Header.Text += serialPort.BaudRate + " Bauds - ";
+                TxBl_Header.Text += serialPort.DataBits + " bits - Parité=" + serialPort.Parity.ToString() + " - ";
+                TxBl_Header.Text += serialPort.StopBits + " stop bit(s)";
 
                 // Set the RcvdText field to invoke the TextChanged callback
                 // The callback launches an async Read task to wait for data
@@ -293,8 +326,9 @@ namespace AppSerialCOM
                 // Create cancellation token object to close I/O operations when closing the device
                 ReadCancellationTokenSource = new CancellationTokenSource();
 
-                //Enable 'WRITE' button to allow sending data
+                //Enable 'WRITE' buttons to allow sending data
                 Bt_SendText.IsEnabled = true;
+                Bt_SendTestText.IsEnabled = true;
 
                 OpenWriteStream();
                 Listen();
@@ -327,7 +361,6 @@ namespace AppSerialCOM
             {
                 TxBl_status.Text = "sendTextButton_Click: " + ex.Message;
             }
-
         }
 
         /// <summary>
@@ -391,6 +424,29 @@ namespace AppSerialCOM
         private void Sl_SendValue_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             // evt lorsque le pointeur quitte la zone de l'outil
+        }
+
+        private void Bt_SaveTestText_Click(object sender, RoutedEventArgs e)
+        {
+            testText = TxBx_TxText.Text;
+            TxBl_status.Text = "Chaîne de test enregistrée";
+            TxBx_TxText.Text = "";
+        }
+
+        private async void Bt_SendTestText_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //Launch the WriteAsync task to perform the write
+                await WriteAsync(testText + Environment.NewLine);
+                TxBl_status.Text = "Envoyé: " + testText;
+                TxBx_TxText.Text = "";
+            }
+            catch (Exception ex)
+            {
+                TxBl_status.Text = "sendTextButton_Click: " + ex.Message;
+            }
+
         }
     }
 }
